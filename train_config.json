@@ -1,0 +1,26 @@
+{
+    "out1": 16,
+    "out2": 128,
+    "conv1": 2,
+    "pool1": 2,
+    "drop1": 0.0,
+    "conv2": 4,
+    "pool2": 1,
+    "drop2": 0.4,
+    "fc1": 128,
+    "fc2": 16,
+    "drop3": 0.2,
+    "feature_dim": 64,
+    "num_classes": 18,
+    "mask_prob": 0.3,
+    "noise": 0.001,
+    "temperature": 0.1,
+    "batch_size": 128,
+    "num_epoch": 100,
+    "learning_rate": 0.001,
+    "data_dir": "./data",
+    "output_path": "./results",
+    "checkpoint_path": "./checkpoints",
+    "seed": 42
+  }
+  

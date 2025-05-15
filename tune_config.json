@@ -1,0 +1,6 @@
+{
+    "data_dir": "./data",
+    "output_path": "./results",
+    "checkpoint_path": "./checkpoints",
+    "num_trials": 4096
+}
