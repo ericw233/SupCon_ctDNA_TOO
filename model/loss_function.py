@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
 
 def supcon_loss(Zi, Zj, temperature=0.1):
@@ -23,4 +24,28 @@ def supcon_loss(Zi, Zj, temperature=0.1):
 
     loss = -torch.log(numerator / denominator)
     return loss.mean()
+
+### supervised contrastive loss class
+class SupConLoss(torch.nn.Module):
+    def __init__(self, temperature=0.07):
+        super().__init__()
+        self.temperature = temperature
+
+    def forward(self, features, labels):
+        device = features.device
+
+        features = F.normalize(features, dim=1)
+        sim = torch.matmul(features, features.T) / self.temperature
+        
+        batch_size = labels.size(0)
+        mask = torch.eye(batch_size, dtype=torch.bool).to(device)
+        sim.masked_fill_(mask, -float('inf')) # exclude self comparisons
+
+        labels = labels.view(-1, 1)
+        pos_mask = (labels == labels.T) & ~mask # mask for positive pairs 
+
+        exp_sim = torch.exp(sim)
+        log_prob = sim - torch.log(exp_sim.sum(dim=1, keepdim=True))
+        loss = -(log_prob * pos_mask).sum(1) / pos_mask.sum(1).clamp(min=1)
+        return loss.mean()
 

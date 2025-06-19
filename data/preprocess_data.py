@@ -1,7 +1,7 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import pandas as pd
 
 class DropNA(BaseEstimator, TransformerMixin):
@@ -30,7 +30,7 @@ def make_preprocessor():
     preprocessor = Pipeline([
         ('drop_na', DropNA(threshold=0.3)),
         ('imputer', SimpleImputer(strategy='mean')),
-        ('scaler', MinMaxScaler()),
+        ('scaler', StandardScaler()),
     ])
 
     return preprocessor
